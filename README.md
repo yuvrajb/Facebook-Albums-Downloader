@@ -1,5 +1,5 @@
-FacebookAlbumsDownloader
-========================
+Facebook Albums Downloader
+==========================
 
 Download favorite albums of your friends from Facebook!
 
@@ -20,4 +20,11 @@ Source Code
 ===========
 
 The source code of the entire application, from the scratch, has been made available. It's open source so you can make or suggest changes.
-Beside the application folder, all the packages needed to be downloaded.
+Except the application folder, all the packages are required to be downloaded.
+
+
+Credits
+=======
+
+First I'd like to thank the people behind WebLnF which makes this application look more appealing than the one in Nimbus when I first started with this project.
+Since it's an open source project, I'd highly appreciate if you will keep my name in-tact in the code. 
