@@ -109,6 +109,7 @@ public class FriendsList extends Thread implements ActionListener{
                     FriendsPane.add(butt[index]);
                     FriendsPane.add(label[index]);
                     index ++;
+                    FriendsPane.repaint();
                 }
                 catch(Exception e){}
                 FriendsScroll.setPreferredSize(new Dimension(836, (int)y + 189));
@@ -125,6 +126,8 @@ public class FriendsList extends Thread implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent event){
+        // clear the selected photos list
+        AlbumPhotos.SelectIds.clear();
         JButton source = (JButton)event.getSource();
         String text = source.getText();
         String[] split = text.split(" ");

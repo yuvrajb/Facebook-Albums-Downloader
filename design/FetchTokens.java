@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Manhattan
+ * @author Yuvraj Singh Babrah
  */
 public class FetchTokens extends javax.swing.JFrame {
     /* properties */
@@ -29,6 +29,7 @@ public class FetchTokens extends javax.swing.JFrame {
     private FacebookClient facebookClient = null;
     private Connection<FriendList> friendsList = null;
     private Connection<Album> albumsList = null;
+    public static boolean flag = false;
 
     /**
      * Creates new form fetchTokens
@@ -178,20 +179,14 @@ public class FetchTokens extends javax.swing.JFrame {
             validationStatus.setText("woops!! the token value cannot be empty");
         }
         else{
-            validationStatus.setText("working ...");
-            ValidateTokens validation = new ValidateTokens(tokens);            
-            easyJSON json = validation.validate();
-            if((int)json.get("status") == 200){
-                facebookClient = validation.getFacebookClient();
-                friendsList = validation.getFriends();
-                albumsList = validation.getAlbums();
-                validationStatus.setText("all set!!");
-                new Skeleton(facebookClient, json.get("id").toString(), json.get("name").toString(), friendsList, albumsList); // show the next frame
-                this.setVisible(false); // hide the current frame
+            if(!flag){
+                flag = true;
             }
             else{
-                validationStatus.setText("authentication failed!! either the token expired or the value is incorrect");
+                return;
             }
+            validationStatus.setText("working ...");
+            new ValidateTokens(tokens, this, validationStatus).start(); // thread
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

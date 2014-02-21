@@ -26,11 +26,13 @@ public class DownloadAlbum extends Thread{
     private List PhotoIds = null;
     private Iterator itr = null;
     private String FilePath = null;
+    private String AlbumName = null;
             
-    public DownloadAlbum(FacebookClient facebookClient, int index, String AlbumId, boolean HighResolution, List PhotoIds){
+    public DownloadAlbum(FacebookClient facebookClient, int index, String AlbumId, String AlbumName, boolean HighResolution, List PhotoIds){
         this.facebookClient = facebookClient;
         this.index = index;
         this.AlbumId = AlbumId;
+        this.AlbumName = AlbumName;
         this.HighResolution = HighResolution;
         this.PhotoIds = PhotoIds;
     }
@@ -45,13 +47,21 @@ public class DownloadAlbum extends Thread{
                 if(Curr.canExecute()){
                     FilePath = Curr.toString();
                     new File(FilePath + "Facebook Album Downloader").mkdir();
-                    FilePath = FilePath + "Facebook Album Downloader";
+                    FilePath = FilePath + "Facebook Album Downloader" + "\\" + AlbumName;
+                    new File(FilePath).mkdir();
                     break;
                 }
             }
         }
+        else{
+            FilePath = FilePath + "\\" + AlbumName;
+            new File(FilePath).mkdir();
+        }
         Skeleton.DownloadPanel[index].setToolTipText(FilePath);
         while(itr.hasNext()){
+            if(Skeleton.AlbumsForDownload[index] == false){
+                break;
+            }
             new DownloadPhoto(facebookClient, index, AlbumId, itr.next().toString(), HighResolution, FilePath).start(); // thread
         }
     }

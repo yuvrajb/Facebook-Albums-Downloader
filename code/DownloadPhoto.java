@@ -44,6 +44,9 @@ public class DownloadPhoto extends Thread{
     
     @Override
     public void run(){
+        if(Skeleton.AlbumsForDownload[index] == false){
+            return;
+        }
         try{
             Photo Img = facebookClient.fetchObject(PhotoId, Photo.class);
             List Images = Img.getImages();
@@ -63,6 +66,9 @@ public class DownloadPhoto extends Thread{
             URL Url = new URL(Link);
             URLConnection UrlConnection = Url.openConnection();
             BufferedImage BufferedURLImage = ImageIO.read(UrlConnection.getInputStream());
+            if(Skeleton.AlbumsForDownload[index] == false){
+                return;
+            }
             File File = new File(FilePath + "\\" + PhotoId + ".jpg");
             File.createNewFile();
             ImageIO.write(BufferedURLImage, "jpg", File);
@@ -71,7 +77,6 @@ public class DownloadPhoto extends Thread{
             Skeleton.decrement(index, AlbumId); // important
         }
         catch(Exception e){
-            System.out.println(e.getMessage());
             Skeleton.decrement(index, AlbumId); // important
         }
     }

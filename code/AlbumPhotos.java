@@ -15,18 +15,22 @@ import design.Skeleton;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Yuvraj Singh Babrah
  */
-public class AlbumPhotos extends Thread{
+public class AlbumPhotos extends Thread implements ActionListener{
     /* properties */
     private FacebookClient facebookClient = null;
     private Connection<Photo> AlbumPhotos = null;
@@ -35,7 +39,9 @@ public class AlbumPhotos extends Thread{
     public static String albumId = null;
     public static List PhotoIds = new LinkedList();
     public static long count = 0;
-    public static int flag = 0;    
+    public static int flag = 0;  
+    public static List SelectIds = new ArrayList();
+    public static List SelectedButtons = new ArrayList();
     
     public AlbumPhotos(FacebookClient facebookClient, String albumId){
         this.facebookClient = facebookClient;
@@ -46,6 +52,7 @@ public class AlbumPhotos extends Thread{
     @Override
     public void run(){
         try{
+            PhotoIds.clear(); // clear list
             Album temp = facebookClient.fetchObject(albumId, Album.class);
             this.count = temp.getCount();
             AlbumPhotos = facebookClient.fetchConnection(albumId + "/photos", Photo.class, Parameter.with("limit", count));
@@ -80,8 +87,11 @@ public class AlbumPhotos extends Thread{
                     butt[index].setIcon(Icon);
                     butt[index].setHorizontalTextPosition(AbstractButton.CENTER);
                     butt[index].setVerticalTextPosition(AbstractButton.CENTER);
+                    // add listener
+                    butt[index].addActionListener(this);
                     Skeleton.AlbumsPicturePanel.add(butt[index]);
                     index ++;
+                    Skeleton.AlbumsPicturePanel.repaint();
                     Skeleton.AlbumsScrollPane.setPreferredSize(new Dimension(836, (int)y + 200));
                     if(itr.hasNext() == false){
                         flag = 0; // lower flag
@@ -99,6 +109,28 @@ public class AlbumPhotos extends Thread{
             flag = 0; // lower flag
             Skeleton.Loader.setVisible(false); // hide loader
         }
-        //System.out.println(PhotoIds);
     }
+    
+    @Override
+    public void actionPerformed(ActionEvent event){
+        JButton Temp = ((JButton)event.getSource());
+        String Id = ((JButton)event.getSource()).getText(); // fetch id
+        if(SelectIds.contains(Id)){ // remove from list
+            int x = Temp.getLocation().x;
+            int y = Temp.getLocation().y;
+            Temp.setSize(150, 150);
+            Temp.setLocation(x - 5, y - 5);
+            SelectIds.remove(Id);
+            SelectedButtons.remove(Temp);
+        }
+        else{ // add the photo id
+            int x = Temp.getLocation().x;
+            int y = Temp.getLocation().y;
+            Temp.setSize(140, 140);
+            Temp.setLocation(x + 5, y + 5);
+            SelectedButtons.add(Temp);
+            SelectIds.add(Id);
+        }
+    }
+        
 }

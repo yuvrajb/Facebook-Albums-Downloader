@@ -60,7 +60,7 @@ public class About extends javax.swing.JFrame {
         jLabel2.setText("Facebook Albums Downloader");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("v1.0");
+        jLabel3.setText("v1.4");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Developed & Designed by");

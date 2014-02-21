@@ -12,26 +12,34 @@ import com.restfb.FacebookClient;
 import com.restfb.types.Album;
 import com.restfb.types.FriendList;
 import com.restfb.types.User;
+import design.FetchTokens;
+import design.Skeleton;
 import easyJSON.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
  * @author Yuvraj Singh Babrah
  */
-public class ValidateTokens {
+public class ValidateTokens extends Thread{
     /* properties */
     private String token = null;
+    private JFrame FetchTokensFrame = null;
+    private JLabel ValidationStatus = null;
     private easyJSON json = new easyJSON();
     private FacebookClient facebookClient = null;
     private Connection<FriendList> friendsList = null;
     private Connection<Album> albumsList = null;
     
-    public ValidateTokens(String token){
+    public ValidateTokens(String token, JFrame FetchTokensFrame, JLabel ValidationStatus){
         this.token = token;
+        this.FetchTokensFrame = FetchTokensFrame;
+        this.ValidationStatus = ValidationStatus;
     }
     
-    // send validation result
-    public easyJSON validate(){
+    @Override
+    public void run(){
         try{
             facebookClient = new DefaultFacebookClient(token);
             User user = facebookClient.fetchObject("me", User.class);
@@ -44,29 +52,14 @@ public class ValidateTokens {
             friendsList = facebookClient.fetchConnection("me/friends", FriendList.class);
             /* fetch the albums list of the user */
             albumsList = facebookClient.fetchConnection("me/albums", Album.class);
-            /* set up json */
-            json.add("status", 200);
-            json.add("name", firstName);
-            json.add("id", id);
+            /* all set */
+            ValidationStatus.setText("all set!!");
+            new Skeleton(facebookClient, id, firstName, friendsList, albumsList); // show the next frame
+            FetchTokensFrame.setVisible(false);
         }
         catch(Exception e){
-            json.add("status", 500);
+            ValidationStatus.setText("authentication failed!! either the token expired or the value is incorrect");
+            FetchTokens.flag = false;
         }
-        return json;
-    }
-    
-    // send facebookClient object
-    public FacebookClient getFacebookClient(){
-        return facebookClient;
-    }
-    
-    // send friends list
-    public Connection<FriendList> getFriends(){
-        return friendsList;
-    }
-    
-    // send albums list
-    public Connection<Album> getAlbums(){
-        return albumsList;
     }
 }

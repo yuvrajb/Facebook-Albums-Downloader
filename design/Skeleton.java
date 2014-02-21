@@ -15,12 +15,11 @@ import com.restfb.types.Album;
 import com.restfb.types.FriendList;
 import java.awt.Color;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -127,6 +126,7 @@ public class Skeleton extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox();
         LoaderIcon = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         AlbumsPicturePane = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -160,6 +160,7 @@ public class Skeleton extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -184,6 +185,7 @@ public class Skeleton extends javax.swing.JFrame {
         });
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setFocusable(false);
 
         FriendsScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -218,7 +220,7 @@ public class Skeleton extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setText("select any album");
+        jLabel1.setText("Select any album");
 
         jComboBox1.setMaximumRowCount(12);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "..." }));
@@ -243,6 +245,13 @@ public class Skeleton extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/loader.GIF"))); // NOI18N
         jLabel3.setVisible(false);
 
+        jButton2.setText("Clear Selection");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -255,12 +264,16 @@ public class Skeleton extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LoaderIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LoaderIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
                 .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addGap(2, 2, 2)
                 .addComponent(jButton1)
                 .addGap(49, 49, 49))
         );
@@ -276,7 +289,8 @@ public class Skeleton extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(LoaderIcon)))
+                        .addComponent(LoaderIcon)
+                        .addComponent(jButton2)))
                 .addGap(16, 16, 16))
         );
 
@@ -319,6 +333,7 @@ public class Skeleton extends javax.swing.JFrame {
         jTabbedPane2.addTab("albums", jScrollPane2);
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane3.setFocusable(false);
 
         DownloadsPane.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -587,13 +602,21 @@ public class Skeleton extends javax.swing.JFrame {
 
         jMenu2.setText("help");
 
-        jMenuItem7.setText("About");
+        jMenuItem7.setText("about");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
             }
         });
         jMenu2.add(jMenuItem7);
+        
+        jMenuItem8.setText("clear downloads");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem8);
 
         jMenuBar1.add(jMenu2);
 
@@ -620,6 +643,9 @@ public class Skeleton extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // clear the selected photos list
+        AlbumPhotos.SelectIds.clear();
+        AlbumPhotos.SelectedButtons.clear();
         // select an album from the list
         if(evt.getStateChange() != 2)
             return;
@@ -635,6 +661,7 @@ public class Skeleton extends javax.swing.JFrame {
             // show the loader
             jLabel3.setVisible(true);
             if(AlbumPhotos.flag == 0){
+                AlbumPhotos.PhotoIds.clear(); // clear list
                 new AlbumPhotos(facebookClient, albumId).start(); // thread
             }
         }
@@ -643,19 +670,20 @@ public class Skeleton extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Download Album
         Boolean HighResolution = jCheckBox1.isSelected();
+        String albumName = this.jComboBox1.getSelectedItem().toString();
         String albumId = AlbumPhotos.albumId; // album id
         long count = AlbumPhotos.count; // total photos in album
         // find the index
-        for(int i = 0; i < 6; i ++){
+        for(int i = 0; i < 5; i ++){
             if(AlbumsForDownload[i] == false){
                 index = i;
                 break;
             }
-            else if(i == 5){
-                index = 6;
+            else if(i == 4){
+                index = 5;
             }
         }
-        if(index == 6){
+        if(index == 5){
             JOptionPane.showMessageDialog(null, "Unfortunately, you cannot download more than 5 albums at the same time.","Please wait!!", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -672,11 +700,19 @@ public class Skeleton extends javax.swing.JFrame {
                 AlbumsForDownload[index] = true;
                 DownloadPanel[index].setVisible(true);
                 DownloadLabel[index].setText(jComboBox1.getSelectedItem().toString());
-                DownloadProgress[index].setMaximum((int)count);
-                DownloadProgress[index].setValue(0);
-                AlbumIdsForDownload.put(albumId, count);
+                if(AlbumPhotos.SelectIds.size() != 0){ // selected photos
+                    new DownloadAlbum(facebookClient, index, albumId, albumName + " (Only Selected Photos)", HighResolution, AlbumPhotos.SelectIds).start(); // thread
+                    DownloadProgress[index].setMaximum((int)AlbumPhotos.SelectIds.size());
+                    DownloadProgress[index].setValue(0);
+                    AlbumIdsForDownload.put(albumId, (int)AlbumPhotos.SelectIds.size());
+                }
+                else{ // complete album
+                    DownloadProgress[index].setMaximum((int)PhotoIds.size());
+                    DownloadProgress[index].setValue(0);
+                    AlbumIdsForDownload.put(albumId, PhotoIds.size());
+                    new DownloadAlbum(facebookClient, index, albumId, albumName, HighResolution, PhotoIds).start(); // thread
+                }
                 DownnloadStackLabel.setVisible(false);
-                new DownloadAlbum(facebookClient, index, albumId, HighResolution, PhotoIds).start(); // thread
                 index ++;
             }
         }
@@ -759,7 +795,33 @@ public class Skeleton extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         // About
         new About();
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // clear downloads stack
+        for(int i = 0; i < 5; i ++){ // set false
+            AlbumsForDownload[i] = false;
+            DownloadPanel[i].setVisible(false);
+        }
+        DownnloadStackLabel.setVisible(true);
+        AlbumIdsForDownload.clear();
+    }
+    //GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Clear the Selected Photos
+        AlbumPhotos.SelectIds.clear();
+        List Buttons = AlbumPhotos.SelectedButtons;
+        Iterator Itr = Buttons.iterator();
+        while(Itr.hasNext()){
+            JButton Next = (JButton)Itr.next();
+            int x = Next.getLocation().x;
+            int y = Next.getLocation().y;
+            Next.setSize(150, 150);
+            Next.setLocation(x - 5, y - 5);
+        }
+        AlbumPhotos.SelectedButtons.clear();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AlbumsPane;
@@ -785,6 +847,7 @@ public class Skeleton extends javax.swing.JFrame {
     private javax.swing.JScrollPane FriendsScroll;
     private javax.swing.JLabel LoaderIcon;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
@@ -802,6 +865,7 @@ public class Skeleton extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
