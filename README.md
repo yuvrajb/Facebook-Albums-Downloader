@@ -15,6 +15,18 @@ Application
 
 To get the desktop app, download the application folder.
 
+Updates
+=======
+
+v1.4
+Minor Bug & Design Fixes
+
+v1.3
+Ability to select particular photos in the album to download.
+
+v1.2
+Bug Fixes
+
 
 Source Code
 ===========
